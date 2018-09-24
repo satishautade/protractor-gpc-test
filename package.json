@@ -1,0 +1,18 @@
+{
+  "name": "try_protractor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "protractor conf.js",
+    "wd-update": "webdriver-manager update",
+    "wd-start": "webdriver-manager start",
+    "wd-stop": "webdriver-manager stop"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "protractor": "^5.4.1",
+    "webdriver-manager": "^12.1.0"
+  }
+}
