@@ -18,7 +18,7 @@ describe('Download GP Connect Script', function() {
       browser.ignoreSynchronization = true;
     });
 
-    it('should login', async function() {
+    it('I should be able to download Script Requests PDF', async function() {
       // Navigate to GPConnect
       await browser.get('http://test.gpconnect.medadvisor.com.au.s3-website-ap-southeast-2.amazonaws.com');
       expect(await browser.getTitle()).toEqual('GPConnect');
@@ -27,14 +27,15 @@ describe('Download GP Connect Script', function() {
       await password.sendKeys('asdfASDF12!@');
       await loginButton.click();
       // Wait for Download Selected Scripts Button (Unique on this page)
-      var visibilityOfDownload = EC.elementToBeClickable(downloadSelectedScriptsButton);
-      browser.wait(visibilityOfDownload); 
+      // Note that this button is visible but NOT clickable before selecting a script
+      var visibilityOfDownloadButton = EC.visibilityOf(downloadSelectedScriptsButton);
+      await browser.wait(visibilityOfDownloadButton);
       // Assert Button Text to be DOWNLOAD SELECTED SCRIPTS
       expect(await downloadSelectedScriptsButton.getText()).toContain('DOWNLOAD SELECTED SCRIPTS');
       
       // Validate checkboxes count is non-zero after they appear
-      var visibilityOfCheckboxes= EC.visibilityOf(checkboxesLocator.first());
-      await browser.wait(visibilityOfCheckboxes);
+      var firstCheckboxeToBeClickable = EC.elementToBeClickable(checkboxesLocator.first());
+      await browser.wait(firstCheckboxeToBeClickable);
       var checkboxes = await checkboxesLocator;
       await expect(checkboxes.length).not.toBeLessThan(1);
       // Check first checkbox
@@ -51,14 +52,14 @@ describe('Download GP Connect Script', function() {
       await expect(linksCount).toBe(3);
       
       // Wait for all of the Download Links to be enabled
-      var visibilityOfDownloadLinks = EC.elementToBeClickable(activeDownloadLinks.first());
-      await browser.wait(visibilityOfDownloadLinks, 60000);
+      var downloadLink1ToBeClickable = EC.elementToBeClickable(activeDownloadLinks.first());
+      await browser.wait(downloadLink1ToBeClickable, 60000);
 
-      visibilityOfDownloadLinks = EC.elementToBeClickable(activeDownloadLinks.get(1));
-      await browser.wait(visibilityOfDownloadLinks, 60000);
+      var downloadLink2ToBeClickable = EC.elementToBeClickable(activeDownloadLinks.get(1));
+      await browser.wait(downloadLink2ToBeClickable, 60000);
 
-      visibilityOfDownloadLinks = EC.elementToBeClickable(activeDownloadLinks.get(2));
-      await browser.wait(visibilityOfDownloadLinks, 60000);
+      var downloadLink3ToBeClickable = EC.elementToBeClickable(activeDownloadLinks.get(2));
+      await browser.wait(downloadLink3ToBeClickable, 60000);
      
       await downloadScripts.click();
       await downloadScriptSummaries.click();
